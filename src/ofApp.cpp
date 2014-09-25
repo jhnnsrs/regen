@@ -11,6 +11,44 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	while(Serve.hasWaitingMessages()){
+		// get the next message
+		ofxOscMessage m;
+		Serve.getNextMessage(&m);
+        
+		std::cout << m.getAddress() <<std::endl;
+		// check for mouse moved message
+		if(m.getAddress() == "/live/beat"){
+			myWindow.mesh.clear();
+			myWindow.newPoints(3);
+			myWindow.addPointstoMesh();
+		}
+		else{
+			// unrecognized message: display on the bottom of the screen
+			string msg_string;
+			msg_string = m.getAddress();
+			msg_string += ": ";
+			for(int i = 0; i < m.getNumArgs(); i++){
+				// get the argument type
+				msg_string += m.getArgTypeName(i);
+				msg_string += ":";
+				// display the argument - make sure we get the right type
+				if(m.getArgType(i) == OFXOSC_TYPE_INT32){
+					msg_string += ofToString(m.getArgAsInt32(i));
+				}
+				else if(m.getArgType(i) == OFXOSC_TYPE_FLOAT){
+					msg_string += ofToString(m.getArgAsFloat(i));
+				}
+				else if(m.getArgType(i) == OFXOSC_TYPE_STRING){
+					msg_string += m.getArgAsString(i);
+				}
+				else{
+					msg_string += "unknown";
+				}
+			}
+		}
+
+	}
 
 }
 

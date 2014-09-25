@@ -4,7 +4,7 @@
 #include <iostream>
 #include "ofxOsc.h"
 
-#define PORT 12345
+#define PORT 9001
 #define NUM_MSG_STRINGS 20
 
 class oPoint
@@ -55,7 +55,7 @@ class OSCServer : public ofxOscReceiver
 public:
 	OSCServer(int port);
 	~OSCServer();
-	ofxOscMessage getMessage()
+	ofxOscMessage getMessage();
 
 private:
 	int m_iport;
@@ -72,7 +72,7 @@ class ofApp : public ofBaseApp{
 	bool fullscreen;
 
 	public:
-		ofApp() : myWindow(30),fullscreen(false),Serve(PORT) {};
+		ofApp() : myWindow(50),fullscreen(false),Serve(PORT) {};
 
 		void setup();
 		void update();
